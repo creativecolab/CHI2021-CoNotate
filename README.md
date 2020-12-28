@@ -9,9 +9,10 @@ When exploring a new domain through web search, people struggle to articulate qu
 
 ![Demo1](https://i.imgur.com/GLn5iy9.png)
 
-Please cite our paper if you use our code and result. (Citation will be available after the paper is published) For bug reporting or any issues you encounter in the code, please email zding@ucsd.edu.
+Please cite our paper if you use our code and result. (citation will be available after the paper is published at CHI'21) For bug reporting or any issues you encounter in the code, please email zding@ucsd.edu.
 
 ## Code for Server
+To guarantee you could still use our extension even after our current server shuts down, we provide the code of our server and you could deploy it on your server. You could also use it separately as a way to get the overview of a corpus and what it has a lack of compared with the meta-data.
 
 ## Code for Chrome Extension
 
