@@ -7,6 +7,8 @@ When exploring a new domain through web search, people struggle to articulate qu
 
 ![Demo Video](https://www.youtube.com/watch?v=vH3htoAq0Ck&feature=youtu.be)
 
+![Demo1](https://i.imgur.com/GLn5iy9.png)
+
 Please cite our paper if you use our code and result. (Citation will be available after the paper is published) For bug reporting or any issues you encounter in the code, please email zding@ucsd.edu.
 
 ## Code for Server
@@ -43,5 +45,3 @@ Please cite our paper if you use our code and result. (Citation will be availabl
 - Type: npm install
 - Type: yarn watch
 - Edit the files the the src folder
-
-![Demo1](https://i.imgur.com/GLn5iy9.png)
