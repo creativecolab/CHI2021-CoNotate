@@ -4,6 +4,8 @@ This repository contains the code for paper “CoNotate: Suggesting Queries Base
 
 ![Demo Video](https://www.youtube.com/watch?v=vH3htoAq0Ck&feature=youtu.be)
 
+Please cite our paper if you use our code and result. (Citation will be available after the paper is published) For bug reporting or any issues you encounter in the code, please email zding@ucsd.edu
+
 ## Code for Server
 
 ## Code for Chrome Extension
