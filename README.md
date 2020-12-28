@@ -2,7 +2,7 @@
 
 This repository contains the code for paper “CoNotate: Suggesting Queries Based on Notes Promotes Knowledge Discovery” accepted to CHI 2021.
 
-![https://www.youtube.com/watch?v=vH3htoAq0Ck&feature=youtu.be](Demo Video)
+![Demo Video](https://www.youtube.com/watch?v=vH3htoAq0Ck&feature=youtu.be)
 
 ## Code for Server
 
