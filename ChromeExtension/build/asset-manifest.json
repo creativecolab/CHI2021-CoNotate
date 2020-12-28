@@ -1,0 +1,11 @@
+{
+  "background.js": "/static/js/background.js",
+  "background.js.map": "/static/js/background.js.map",
+  "domWatcherContent.js": "/static/js/domWatcherContent.js",
+  "domWatcherContent.js.map": "/static/js/domWatcherContent.js.map",
+  "mainContent.js": "/static/js/mainContent.js",
+  "mainContent.js.map": "/static/js/mainContent.js.map",
+  "pluginContent.js": "/static/js/pluginContent.js",
+  "pluginContent.js.map": "/static/js/pluginContent.js.map",
+  "index.html": "/index.html"
+}

@@ -1,0 +1,72 @@
+<style>
+    button {
+        position: fixed;
+        background: #2D2D2D;
+        color: white;
+        border: none;
+        padding: 0;
+        height: 36px;
+        width: 60px;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        z-index: 2147483647;
+        display: flex;
+        font-size: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+    [previous] {
+        top: 0;
+        left: 0;
+        transform: rotate(180deg);
+    }
+    [next] {
+        top: 0;
+        right: 0;
+    }
+    [hidden] {
+        display: none !important;
+    }
+    #extension-suggestions-container {
+        position: relative;
+        font-family: 'Public Sans', sans-serif;
+        line-height: 16px;
+        font-size: 20px;
+        height: 36px;
+        left: 0px;
+        white-space: nowrap;
+        transition: left 1s;
+        color: white;
+    }
+    .extension-suggestion:hover {
+        background: #D8D8D8;
+        border: #D8D8D8 2px solid;
+    }
+    .extension-suggestion {
+        font-size: 14px;
+        display: inline-block;
+        padding: 3px 8px;
+        margin-left: 8px;
+        margin-top: 5px;
+        color: #606060;
+        background: #F2F2F2;
+        border: #E7E7E7 2px solid;
+        border-radius: 15px;
+        text-align: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    .extension-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+</style>
+
+<button hidden previous>></button>
+<div id = "extension-suggestions-container" style = "left: 0;">
+    <div class = "extension-text">Loading...</div>
+</div>
+<button hidden next>></button>

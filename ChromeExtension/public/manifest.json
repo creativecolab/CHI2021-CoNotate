@@ -1,0 +1,50 @@
+{
+    "short_name": "Creative Search",
+    "name": "Creative Search",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApR1nFlgfAwOl/iHd3LFLqvpwIyTUKO98iLMOnmnex5Ngwp8hllTOubXbUUMy0VoX8920I0WJpCfAU53rPrnAMEhz/cjBrhW0m1vc08/a7pu69eJrIyO6imwVeLsaYjinFnlT5kvmWhFoE5L8JWfbDB+BHyWEYuhb9nen4JdglpB7JY+RelcnlKePiDL0yZ2natce5nIn6LGID2e7xeCQfTxMKJbUP052Wd2NFIGv3CM/gZzLSEhKjnj9Df+373Z108fgJSPrWPSeoTVktJkPbNw9o3gB4OanO0m7jQKr9ui7m0qaqkPpeAouEvY2NJ9T7TcgDb8yuJ+feZSPIT4f3QIDAQAB",
+    "version": "1.0",
+    "manifest_version": 2,
+    "background": {
+        "page": "app/background.html",
+        "persistent": true
+    },
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "webNavigation",
+        "identity",
+        "webRequest",
+        "webRequestBlocking",
+        "storage",
+        "<all_urls>"
+    ],
+    "oauth2": {
+        "client_id": "1039601667298-8evlrh5vpb3v3sigem9mvntqfkes2qfh.apps.googleusercontent.com",
+        "scopes": [
+        "https://www.googleapis.com/auth/documents",
+        "https://www.googleapis.com/auth/script.projects",
+        "https://www.googleapis.com/auth/script.external_request",
+        "https://www.googleapis.com/auth/script.processes",
+        "https://www.googleapis.com/auth/script.deployments",
+        "https://apps-apis.google.com/a/feeds",
+        "https://www.googleapis.com/auth/script.scriptapp",
+        "https://www.googleapis.com/auth/drive"
+        ]
+    },
+    "content_scripts" : [
+        {
+        "matches": [ "https://docs.google.com/document/d/*"],
+        "js": ["/static/js/domWatcherContent.js"],
+        "all_frames": true
+        },
+        {
+        "matches": ["<all_urls>"],
+        "css": ["/css/mainPlugin.css"],
+        "js": ["/static/js/mainContent.js"]
+        }
+    ],
+    "web_accessible_resources":[
+        "/css/sidePlugin.css", "/static/media/*"
+    ],
+    "content_security_policy": "script-src 'self' https://suggestqueries.google.com/complete/; object-src 'self'"
+}

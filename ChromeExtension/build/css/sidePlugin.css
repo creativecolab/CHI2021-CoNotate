@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css?family=Public+Sans&display=swap');
+
+html {
+	font-family: 'Public Sans', sans-serif;
+	--background-color: white;
+	--button-color: #ff0044;
+	--login-gradient-color1: white;
+	--login-gradient-color2: #8a7777;
+	--grid-item-border: #dfe1e5;
+	--grid-item-border-divider: #e2e2e2;
+	--sign-in-button: #4285F4;
+	--sign-in-button-hover: #3367D6;
+	font-size: 16px;
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+	margin: 0;
+}
+
+html, body, .frame-root, .frame-content, #content-body {
+	height: 100%;
+	background: var(--background-color);
+}
+
+button {
+	background-color: var(--button-color);
+	border: 0px;
+	border-radius: 0.25rem;
+	color: white;
+	cursor: pointer;
+	line-height: 1;
+	padding: 0.5rem;
+}
+
+#content-body.login {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-image: linear-gradient(to bottom right, var(--login-gradient-color1), var(--login-gradient-color2));
+}
+
+#content-body.grid.padded {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 13rem);
+	grid-template-rows: repeat(auto-fill, 20rem);
+	grid-gap: 2rem;
+	height: 100%;
+	width: 100%;
+	padding: 1rem;
+}
+
+#content-body.editor.padded {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	grid-template-areas: "nav" "editor";
+	column-gap: 1rem;
+	height: 100vh;
+	padding: 1rem;
+}
+
+#content-body-nav {
+	grid-area: nav;
+	display: flex;
+	justify-content: space-between;
+}
+
+#content-body-editor {
+	grid-area: editor;
+	flex-grow: 1;
+	width: 100%;
+	height: 100%;
+}
+
+.content-body-grid-item {
+	display: flex;
+	flex-direction: column;
+	border: 0.0625rem solid var(--grid-item-border);
+	border-radius: 0.1875rem;
+	height: 20rem;
+}
+
+.content-body-grid-item:hover {
+	border-color: var(--blue);
+	cursor: pointer;
+}
+
+.content-body-grid-item-thumbnail {
+	display: block;
+	position: relative;
+	height: 16.4375rem;
+	width: 12.875rem;
+	background-repeat: no-repeat;
+	background-position: 'center';
+	background-size: cover;
+	border: none;
+	margin: auto 0;
+}
+
+.content-body-grid-item-title {
+	border-top: 0.0625rem solid var(--grid-item-border);
+	padding: 1rem 0.5rem 0.875rem 1rem;
+	position: relative;
+}
+/* Unauthenticated SideBar CSS */
+
+/* Unauthenticated SideBar CSS - Google SignIn */
+
+#google-signin {
+	display: flex;
+	background: var(--sign-in-button);
+	color: white;
+	padding: 1px;
+	border-radius: 1px;
+	width: 200px;
+	text-align: center;
+	align-items: center;
+}
+
+#google-signin:hover {
+	background: var(--sign-in-button-hover);
+}
+
+#google-signin #logo {
+	padding: 12.5px 13px 7.5px 13px;
+	background: white;
+	border-top-left-radius: 1px;
+	border-bottom-left-radius: 1px;
+}
+
+#google-signin span {
+	width: 100%
+}
