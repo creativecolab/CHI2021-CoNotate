@@ -1,12 +1,21 @@
-# CreativeSearch
-## Chrome Extension setup (User)
+# CoNotate: A Chrome Extension Suggesting Queries Based on Notes (CHI'21)
+
+This repository contains the code for paper “CoNotate: Suggesting Queries Based on Notes Promotes Knowledge Discovery” accepted to CHI 2021.
+
+![https://www.youtube.com/watch?v=vH3htoAq0Ck&feature=youtu.be](Demo Video)
+
+## Code for Server
+
+## Code for Chrome Extension
+
+### Chrome Extension setup (User)
 
 - Open a Google Chrome Browser
 - Download the build folder
 - Navigate to chrome://extensions/ and toggle on developer mode (on the top right)
 - Navigate to the folder chromeExtension/build and drag it into your tab
 
-## Chrome Extension setup (Developer)
+### Chrome Extension setup (Developer)
 
 - Open a Google Chrome Browser
 - Download the build folder
@@ -27,7 +36,7 @@
 - Navigate to chrome://extensions/ and drag the chromeExtension/build folder
 - Setup complete
 
-## Chrome Extension development (Developer)
+### Chrome Extension development (Developer)
 - Dependences: npm, yarn
 - Navigate to the chromeExtension folder
 - Type: npm install
