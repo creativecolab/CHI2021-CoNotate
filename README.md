@@ -25,7 +25,6 @@ This repository contains the code for paper “CoNotate: Suggesting Queries Base
 - Go to https://console.developers.google.com/apis/dashboard
 - Press credentials and create an oauth client id using the chrome extension ID
 ![OAuth](https://user-images.githubusercontent.com/44254631/85097930-efde4000-b1ad-11ea-99b4-8742537d9ed2.png)
-
 - Return to https://console.developers.google.com/apis/dashboard and press on library
 - Search for google docs and press on it 
 - Enable the API
