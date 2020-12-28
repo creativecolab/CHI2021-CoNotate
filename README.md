@@ -13,11 +13,13 @@ Please cite our paper if you use our code and result. (citation will be availabl
 
 ## Code for Server
 
-The code is in the #Server# folder. A detailed description of the server could be found in the paper.
+The code is in the ![Server](https://github.com/creativecolab/CHI2021-CoNotate/tree/master/Server) folder. A detailed description of the server could be found in the paper.
 
 To guarantee you could still use our extension even after our current server shuts down, we provide the code of our server and you could deploy it on your server. You could also use it separately as a way to get the overview of a corpus and what it lacks compared with the meta-data. After you deploy this code on your own server, please also change the SERVER_API_URL in ![settings.js](https://github.com/creativecolab/CHI2021-CoNotate/blob/master/ChromeExtension/src/settings.js) to the link to your own server.
 
 ## Code for Chrome Extension
+
+The code is in the ![ChromeExtension](https://github.com/creativecolab/CHI2021-CoNotate/tree/master/ChromeExtension) folder.
 
 ### Chrome Extension setup (User)
 
