@@ -2,6 +2,9 @@
 
 This repository contains the code for paper “CoNotate: Suggesting Queries Based on Notes Promotes Knowledge Discovery” accepted to CHI 2021.
 
+## Abstract
+When exploring a new domain through web search, people struggle to articulate queries because they lack domain-specific language and well-defined informational goals. Perhaps search tools rely too much on the query to understand what a searcher wants. Towards expanding this contextual understanding of a user during exploratory search, we introduce a novel system, CoNotate, that integrates note-taking and searching to suggest queries. To evaluate this approach, we conducted a within-subjects study where participants (n=38) conducted exploratory searches using a baseline system (standard web search) and the CoNotate system, which offers query suggestions based on analyzing the searcher's notes and previous searches for patterns and gaps in information. The CoNotate approach led searchers to issue significantly more queries, and discover more terminology than standard web search. We discuss the challenges and opportunities of context-rich search for knowledge discovery.
+
 ![Demo Video](https://www.youtube.com/watch?v=vH3htoAq0Ck&feature=youtu.be)
 
 Please cite our paper if you use our code and result. (Citation will be available after the paper is published) For bug reporting or any issues you encounter in the code, please email zding@ucsd.edu.
