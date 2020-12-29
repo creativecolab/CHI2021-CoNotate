@@ -21,14 +21,14 @@
     "oauth2": {
         "client_id": "1039601667298-8evlrh5vpb3v3sigem9mvntqfkes2qfh.apps.googleusercontent.com",
         "scopes": [
-        "https://www.googleapis.com/auth/documents",
-        "https://www.googleapis.com/auth/script.projects",
-        "https://www.googleapis.com/auth/script.external_request",
-        "https://www.googleapis.com/auth/script.processes",
-        "https://www.googleapis.com/auth/script.deployments",
-        "https://apps-apis.google.com/a/feeds",
-        "https://www.googleapis.com/auth/script.scriptapp",
-        "https://www.googleapis.com/auth/drive"
+            "https://www.googleapis.com/auth/documents",
+            "https://www.googleapis.com/auth/script.projects",
+            "https://www.googleapis.com/auth/script.external_request",
+            "https://www.googleapis.com/auth/script.processes",
+            "https://www.googleapis.com/auth/script.deployments",
+            "https://apps-apis.google.com/a/feeds",
+            "https://www.googleapis.com/auth/script.scriptapp",
+            "https://www.googleapis.com/auth/drive"
         ]
     },
     "content_scripts" : [

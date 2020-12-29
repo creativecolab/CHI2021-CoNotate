@@ -124,14 +124,6 @@ window.customElements.define(
                     // Prep the suggestion container
                     this.checkBtn();
                 }
-                if (msg.type === "resizeWindow") {
-                    const previousClientWidth = this.clientWidth;
-                    this.clientWidth = document.documentElement.clientWidth;
-
-                    // While this may seem weird, we call the call the previous function to make sure we adapt to the range
-                    if (parseFloat(this.container.style.left) !== 0) this.previous(this.clientWidth - previousClientWidth);
-                    this.checkBtn();
-                }
             });
 
             // Prevent default scrolling behavior when hovered over the top menu
@@ -142,14 +134,25 @@ window.customElements.define(
                     if (e.wheelDeltaY < 0) this.next(100);
                     else this.previous(100);
                 }
-            }
+            };
 
+            this.resizeEvent = () => {
+                const previousClientWidth = this.clientWidth;
+                this.clientWidth = document.documentElement.clientWidth;
+
+                // While this may seem weird, we call the call the previous function to make sure we adapt to the range
+                if (parseFloat(this.container.style.left) !== 0) this.previous(this.clientWidth - previousClientWidth);
+                this.checkBtn();
+            };
+
+            window.addEventListener("resize", this.resizeEvent);
             window.addEventListener('wheel', this.scrollEvent, { passive: false });
         }
 
         disconnectedCallback() {
             this.nextBtn.removeEventListener('click', this.next);
             this.previousBtn.removeEventListener('click', this.previous);
+            window.removeEventListener("resize", this.resizeEvent);
             window.removeEventListener('wheel', this.scrollEvent, { passive: false });
         }
 

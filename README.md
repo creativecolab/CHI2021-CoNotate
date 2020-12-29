@@ -22,32 +22,46 @@ To guarantee you could still use our extension even after our current server shu
 The code is in the ![ChromeExtension](https://github.com/creativecolab/CHI2021-CoNotate/tree/master/ChromeExtension) folder.
 
 ### Chrome Extension setup (User)
-
 - Open a Google Chrome Browser
-- Download the build folder
+- Download the build folder and extract it
 - Navigate to chrome://extensions/ and toggle on developer mode (on the top right)
-- Navigate to the folder chromeExtension/build and drag it into your tab
+- Drag and drop the extracted build folder into the tab
 
 ### Chrome Extension setup (Developer)
-
+- Dependencies: npm, yarn
+- Clone the repo (or download and extract it)
+- Navigate to the chromeExtension folder
+- Execute: "npm install" and then "yarn watch" in the command line
+- Navigate to the chromeExtension/public folder
+- Open the manifest.json file and remove the "key" and "client_id" variable
 - Open a Google Chrome Browser
-- Download the build folder
 - Navigate to chrome://extensions/ and toggle on developer mode (on the top right)
 - Navigate to the folder chromeExtension/build and drag it into your tab
-- Get the ID from the chrome extension
-- Go to https://console.developers.google.com/apis/dashboard
-- Press credentials and create an oauth client id using the chrome extension ID
+- Press pack extension and select the chromeExtension/build folder and then pack the extension (make sure you keep both the crx and pem files, they are critical)
+- Navigate a new tab to https://robwu.nl/crxviewer/
+- Open the build.crx file that you generated in the chromeExtension folder
+- Open up the console
+- Go to the manifest.json file in the folder chromeExtension/public and replace the "key"
+- Get the "Calculated extension ID" beneath the key in the console
+- Go to https://console.developers.google.com/apis/dashboard 
+- Press credentials and create an oauth client id using the "Calculated extension ID"
 ![OAuth](https://user-images.githubusercontent.com/44254631/85097930-efde4000-b1ad-11ea-99b4-8742537d9ed2.png)
+- Go to the manifest.json file in the folder chromeExtension/public and replace the "client_id"
 - Return to https://console.developers.google.com/apis/dashboard and press on library
-- Search for google docs and press on it 
+- Search for google docs and press on it
 - Enable the API
-- Go to the manifest.json file in the folder chromeExtension/build and replace the "client_id"
-- Navigate to chrome://extensions/ and drag the chromeExtension/build folder
+- Navigate to the chromeExtension/src/setting.js file
+- Replace data as needed
+- Navigate back to chrome://extensions/ and drag the chromeExtension/build folder
 - Setup complete
 
-### Chrome Extension development (Developer)
-- Dependences: npm, yarn
-- Navigate to the chromeExtension folder
-- Type: npm install
-- Type: yarn watch
-- Edit the files the the src folder
+### Chrome Extension Development (Important Files)
+- Before each session make sure to navigate to the chromeExtension folder and type "yarn watch"
+- settings.js - Centralized location of important variables used throughout the plugin.
+- scripts and config folder - The files in these folders deal with webpack and the build process. If you want to import different file loaders or etc., this is the location.
+- public folder - This is the template for the build folder. The manifest file in here decides which scripts are loaded into which pages.
+- pluginContent.js - The container of the sidebar of the plugin. Decides what to load up in the components folder.
+- components folder - The react app which pluginContent.js loads in
+- domWatcherContent.js - This is the script that is injected into the google docs (which is loaded in by DocumentEditor.js file in the components folder). It is used to send user input from the google doc to our background.js script.
+- mainContent - The script that is injected into every loaded page. Includes the web scraper and the suggestions top bar
+- background.js - The hub of the pluginContent, domWatcherContent, and mainContent. Transfers information between these three components as needed and runs data through the server and other APIs

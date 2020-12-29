@@ -27,22 +27,6 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
             state: "normal"
         }, success));
 
-    // Kinda of out of place but we need it for our listener will also be used in the main background script
-    // Post data to the main window (suggestion bar)
-    const postData = (type, data = null) => {
-        chrome.tabs.getAllInWindow(
-            mainWindow.id,
-            async (tabs) => {
-                for (let j = tabs.length - 1; j >= 0; --j) {
-                    chrome.tabs.sendMessage(tabs[j].id, {
-                        type,
-                        data
-                    }, { frameId: 0 });
-                }
-            }
-        );
-    };
-
     // We do not want to delay the background script as we already have the necessary data to start running
     (async () => {
         // Since we do not have a native way to get the screen size, we will assume that the current window size is full screen
@@ -71,8 +55,6 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                 pluginWindow = focusedWindow;
                 await resizeMain(maxWindowWidth - pluginWindow.width + 22);
             }
-
-            postData("resizeWindow");
         });
     })();
     
@@ -116,9 +98,24 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
         return array;
     };
 
-    // Commuincation between the background scripts and injected content scripts
+    // Communication between the background scripts and injected content scripts
     chrome.runtime.onConnect.addListener(
         (port) => {
+            // Post data to the main window (suggestion bar)
+            const postData = (type, data = null) => {
+                chrome.tabs.getAllInWindow(
+                    mainWindow.id,
+                    async (tabs) => {
+                        for (let j = tabs.length - 1; j >= 0; --j) {
+                            chrome.tabs.sendMessage(tabs[j].id, {
+                                type,
+                                data
+                            }, { frameId: 0 });
+                        }
+                    }
+                );
+            };
+
             const processIdentity = (token) => {
                 if (chrome.runtime.lastError) {
                     state.chromeIdentity = null;
