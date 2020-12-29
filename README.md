@@ -21,13 +21,13 @@ To guarantee you could still use our extension even after our current server shu
 
 The code is in the ![ChromeExtension](https://github.com/creativecolab/CHI2021-CoNotate/tree/master/ChromeExtension) folder.
 
-### Chrome Extension setup (User)
+### Chrome Extension Setup (User)
 - Open a Google Chrome Browser
 - Download the build folder and extract it
 - Navigate to chrome://extensions/ and toggle on developer mode (on the top right)
 - Drag and drop the extracted build folder into the tab
 
-### Chrome Extension setup (Developer)
+### Chrome Extension Setup (Developer)
 - Dependencies: npm, yarn
 - Clone the repo (or download and extract it)
 - Navigate to the chromeExtension folder
