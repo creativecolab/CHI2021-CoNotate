@@ -80,7 +80,9 @@ window.customElements.define(
 
         createDOMNode(text, cssClass, onClick = null) {
             const element = document.createElement("div");
-            element.classList.add(cssClass);
+            for (let i = 0; i < cssClass.length; i++) {
+                element.classList.add(cssClass[i]);
+            }
 
             if (onClick) element.onclick = onClick;
             const elementText = document.createTextNode(text);
@@ -100,21 +102,40 @@ window.customElements.define(
                 if (msg.type === "processDoc") {
                     // Reset the width of the suggestions
                     let totalSuggestionWidth = 0;
+                    console.log(msg);
 
                     // Clear the previous suggestions if they are there
                     while (this.container.firstChild) {
                         this.container.removeChild(this.container.lastChild);
                     }
-
-                    if (msg.data.length === 0 || (msg.data.length < this.length && this.emptyMessage !== "There are no valid suggestions")) {
-                        this.createDOMNode(this.emptyMessage, "extension-text");
+                    if (msg.data.suggestionsCache.length === 0 || (msg.data.suggestionsCache.length < this.length && this.emptyMessage !== "There are no valid suggestions")) {
+                        this.createDOMNode(this.emptyMessage, ["extension-text"]);
                     } else {
-                        for (let j = msg.data.length - 1; j >= 0; --j) {
-                            const filteredData = msg.data[j].replaceAll('%20', ' ');
+                        const queryStart = msg.data.autoComplete.join('');
+                        for (let i = 0; i < msg.data.autoComplete.length - 1; i++) {
+                            const filteredData = msg.data.autoComplete[i];
                             totalSuggestionWidth += (this.createDOMNode(
                                 filteredData,
-                                "extension-suggestion", 
+                                ["extension-suggestion"], 
                                 () => { window.location.href = `https://www.google.com/search?q=${filteredData}` }
+                                // The 8 is the margin width
+                            )).offsetWidth + 8;
+                        }
+
+                        const breaker = msg.data.autoComplete[msg.data.autoComplete.length - 1];
+                        totalSuggestionWidth += (this.createDOMNode(
+                            breaker,
+                            ["extension-suggestion", "breaker"], 
+                            () => { window.location.href = `https://www.google.com/search?q=${breaker}` }
+                            // The 24 is the margin width for the breaker
+                        )).offsetWidth + 24;
+
+                        for (let j = msg.data.suggestionsCache.length - 1; j >= 0; --j) {
+                            const filteredData = msg.data.suggestionsCache[j].replaceAll('%20', ' ');
+                            totalSuggestionWidth += (this.createDOMNode(
+                                filteredData,
+                                ["extension-suggestion"], 
+                                () => { window.location.href = `https://www.google.com/search?q=${queryStart} ${filteredData}` }
                                 // The 8 is the margin width
                             )).offsetWidth + 8;
                         }

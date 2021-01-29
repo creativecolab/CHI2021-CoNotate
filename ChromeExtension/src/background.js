@@ -135,7 +135,7 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                 if (scrapeSerp.length > 0 && notesSerp.length > 0) {
                     let response, suggestions = [];
                     try {
-                        response = await nlpAPI.generateSuggestions_retry(autoComplete[0], autoComplete[1].join(", "), notesSerp, scrapeSerp, 3);
+                        response = await nlpAPI.generateSuggestions_retry(autoComplete[0].join(''), autoComplete[1].join(", "), notesSerp, scrapeSerp, 3);
                     } catch (e) {
                         throw Error;
                     }
@@ -149,13 +149,13 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                         }
                     }
 
-                    suggestions = shuffle(suggestions).map((suggestion) => `${autoComplete[0]} ${suggestion}`);
+                    suggestions = shuffle(suggestions);
                     suggestionsCache = suggestions;
                 }
 
                 postData(
                     "processDoc",
-                    suggestionsCache
+                    { suggestionsCache, autoComplete: autoComplete[0] }
                 );
 
                 return responseObj;
@@ -214,8 +214,27 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                                 const queryStart = (msg.data.url.indexOf("&q=") === -1 ? msg.data.url.indexOf("?q=") : msg.data.url.indexOf("&q=")) + 3;
                                 const queryEnd = msg.data.url.indexOf('&', queryStart) === -1 ? msg.data.url.length : msg.data.url.indexOf('&', queryStart);
 
+                                let userQuery = decodeURI(msg.data.url.substring(queryStart, queryEnd).replace(/[+\s]/gi, ' ').trim());
+
+                                if (autoComplete[0].length === 0 || !userQuery.startsWith(autoComplete[0][0]) || userQuery.length < autoComplete[0].join('').length) {
+                                    autoComplete = [[userQuery]];
+                                } else {
+                                    for (let i = 0; i < autoComplete[0].length; i++) {
+                                        const queryTerm = autoComplete[0][i];
+                                        console.log(queryTerm)
+                                        if (userQuery.startsWith(queryTerm)) {
+                                            userQuery = userQuery.slice(queryTerm.length);
+                                        }
+                                    }
+                                    if (userQuery.length > 0) autoComplete[0].push(userQuery);
+                                }
+
+
+                                /*for (let i = 0; i < autoComplete[0].length; i++) {
+                                    if (userQuery.startsWith(autoComplete[0][i])) userQuery.slice
+                                }*/
                                 // Set query first in case of failed fetches
-                                autoComplete = [msg.data.url.substring(queryStart, queryEnd).replace(/[+\s]/gi, ' ').trim()];
+                                console.log(autoComplete);
 
                                 try {
                                     const response = await googleAPI.autoComplete_retry(msg.data.url.substring(queryStart, queryEnd), 5);
@@ -223,7 +242,7 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                                     let tempArr = [];
                                     for (let reponseSuggestions = response[1], i = 0, j = reponseSuggestions.length; i < j; i++) {
                                         const trimmedResponseSuggestions = reponseSuggestions[i].trim();
-                                        if (trimmedResponseSuggestions !== autoComplete[0])
+                                        if (trimmedResponseSuggestions !== autoComplete[0].join(''))
                                             tempArr.push(trimmedResponseSuggestions.replace(/<[^>]*>/g, ''))
                                     }
 
@@ -236,7 +255,7 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
 
                                         postData(
                                             "processDoc",
-                                            suggestionsCache
+                                            { suggestionsCache, autoComplete: autoComplete[0] }
                                         );
 
                                         // Logging
@@ -275,7 +294,7 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                             } else {
                                 postData(
                                     "processDoc",
-                                    suggestionsCache
+                                    { suggestionsCache, autoComplete: autoComplete[0] }
                                 );
 
                                 stateHistoryProxy.push({
