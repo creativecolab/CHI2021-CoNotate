@@ -78,7 +78,76 @@ window.customElements.define(
             else this.nextBtn.hidden = true;
         }
 
-        createDOMNode(text, cssClass, onClick = null) {
+        updateOnSuggestionDelete() {
+            const queryStart = this.autoComplete.join(' ');
+            let firstPrevious = false;
+            for (let i = this.container.children.length - 1; i >= 0; i--) {
+                const element = this.container.children[i];
+                if (!firstPrevious && element.classList.contains("previous")) {
+                    element.classList.add("breaker");
+                    firstPrevious = true;
+                }
+
+                if (!firstPrevious) {
+                    element.onclick = () => {
+                        window.location.href = `https://www.google.com/search?q=${queryStart} ${this.container.children[i].innerHTML}`
+                    }
+                } else {
+                    element.childNodes[1].onclick = (e) => {
+                        e.cancelBubble = true;
+                        if(e.stopPropagation) e.stopPropagation();
+        
+                        this.autoComplete.splice(i, 1);
+                        chromePort.postMessage({
+                            type: "deleteSuggestion",
+                            data: i
+                        });
+        
+                        this.suggestionsWidth -= element.offsetWidth;
+                        this.container.removeChild(element);
+                        this.updateOnSuggestionDelete();
+                    }
+                }
+            }
+        }
+
+        createPreviousSuggestionNode(text = "", cssClass = [], onClick = null, i = 0) {
+            const element = document.createElement("div");
+            for (let i = 0; i < cssClass.length; i++) {
+                element.classList.add(cssClass[i]);
+            }
+
+            if (onClick) element.onclick = onClick;
+            const elementContent = document.createElement("span");
+            const elementContentText = document.createTextNode(text);
+            elementContent.append(elementContentText);
+            element.append(elementContent);
+
+            const elementDelete = document.createElement("span");
+            const elementDeleteText = document.createTextNode("x");
+            elementDelete.append(elementDeleteText);
+            elementDelete.classList.add("delete");
+            elementDelete.onclick = (e) => {
+                e.cancelBubble = true;
+                if(e.stopPropagation) e.stopPropagation();
+
+                this.autoComplete.splice(i, 1);
+                chromePort.postMessage({
+                    type: "deleteSuggestion",
+                    data: i
+                });
+
+                this.suggestionsWidth -= element.offsetWidth;
+                this.container.removeChild(element);
+                this.updateOnSuggestionDelete();
+            }
+            element.append(elementDelete);
+            this.container.append(element);
+
+            return element;
+        }
+
+        createDOMNode(text = "", cssClass = [], onClick = null) {
             const element = document.createElement("div");
             for (let i = 0; i < cssClass.length; i++) {
                 element.classList.add(cssClass[i]);
@@ -102,31 +171,34 @@ window.customElements.define(
                 if (msg.type === "processDoc") {
                     // Reset the width of the suggestions
                     let totalSuggestionWidth = 0;
-                    console.log(msg);
 
                     // Clear the previous suggestions if they are there
                     while (this.container.firstChild) {
                         this.container.removeChild(this.container.lastChild);
                     }
+                    
                     if (msg.data.suggestionsCache.length === 0 || (msg.data.suggestionsCache.length < this.length && this.emptyMessage !== "There are no valid suggestions")) {
                         this.createDOMNode(this.emptyMessage, ["extension-text"]);
                     } else {
-                        const queryStart = msg.data.autoComplete.join('');
+                        const queryStart = msg.data.autoComplete.join(' ').trim();
+                        this.autoComplete = msg.data.autoComplete;
                         for (let i = 0; i < msg.data.autoComplete.length - 1; i++) {
                             const filteredData = msg.data.autoComplete[i];
-                            totalSuggestionWidth += (this.createDOMNode(
+                            totalSuggestionWidth += (this.createPreviousSuggestionNode(
                                 filteredData,
-                                ["extension-suggestion"], 
-                                () => { window.location.href = `https://www.google.com/search?q=${filteredData}` }
+                                ["extension-suggestion", "previous"], 
+                                () => { window.location.href = `https://www.google.com/search?q=${filteredData}` },
+                                i
                                 // The 8 is the margin width
                             )).offsetWidth + 8;
                         }
 
                         const breaker = msg.data.autoComplete[msg.data.autoComplete.length - 1];
-                        totalSuggestionWidth += (this.createDOMNode(
+                        totalSuggestionWidth += (this.createPreviousSuggestionNode(
                             breaker,
-                            ["extension-suggestion", "breaker"], 
-                            () => { window.location.href = `https://www.google.com/search?q=${breaker}` }
+                            ["extension-suggestion", "previous", "breaker"], 
+                            () => { window.location.href = `https://www.google.com/search?q=${breaker}` },
+                            msg.data.autoComplete.length - 1
                             // The 24 is the margin width for the breaker
                         )).offsetWidth + 24;
 

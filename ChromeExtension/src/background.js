@@ -59,7 +59,7 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
     })();
     
     // Start the processing part of the background script
-    let suggestionsCache = [], scrapeSerp = '', autoComplete = ['', []], notesSerp = '', toggleOpen = true, lastUpdated = 0;
+    let suggestionsCache = [], scrapeSerp = '', autoComplete = [[], []], notesSerp = '', toggleOpen = true, lastUpdated = 0;
 
     let state = {
         PLUGIN_MODE,
@@ -135,7 +135,7 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                 if (scrapeSerp.length > 0 && notesSerp.length > 0) {
                     let response, suggestions = [];
                     try {
-                        response = await nlpAPI.generateSuggestions_retry(autoComplete[0].join(''), autoComplete[1].join(", "), notesSerp, scrapeSerp, 3);
+                        response = await nlpAPI.generateSuggestions_retry(autoComplete[0].join(" "), autoComplete[1].join(", "), notesSerp, scrapeSerp, 3);
                     } catch (e) {
                         throw Error;
                     }
@@ -216,33 +216,26 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
 
                                 let userQuery = decodeURI(msg.data.url.substring(queryStart, queryEnd).replace(/[+\s]/gi, ' ').trim());
 
-                                if (autoComplete[0].length === 0 || !userQuery.startsWith(autoComplete[0][0]) || userQuery.length < autoComplete[0].join('').length) {
-                                    autoComplete = [[userQuery]];
+                                if (autoComplete[0].length === 0 || !userQuery.startsWith(autoComplete[0][0]) || userQuery.length < autoComplete[0].join(' ').length) {
+                                    autoComplete = [[userQuery.trim()]];
                                 } else {
                                     for (let i = 0; i < autoComplete[0].length; i++) {
                                         const queryTerm = autoComplete[0][i];
-                                        console.log(queryTerm)
                                         if (userQuery.startsWith(queryTerm)) {
-                                            userQuery = userQuery.slice(queryTerm.length);
+                                            userQuery = userQuery.slice(queryTerm.length).trim();
                                         }
                                     }
-                                    if (userQuery.length > 0) autoComplete[0].push(userQuery);
+                                    if (userQuery.length > 0) autoComplete[0].push(userQuery.trim());
                                 }
 
-
-                                /*for (let i = 0; i < autoComplete[0].length; i++) {
-                                    if (userQuery.startsWith(autoComplete[0][i])) userQuery.slice
-                                }*/
                                 // Set query first in case of failed fetches
-                                console.log(autoComplete);
-
                                 try {
                                     const response = await googleAPI.autoComplete_retry(msg.data.url.substring(queryStart, queryEnd), 5);
 
                                     let tempArr = [];
                                     for (let reponseSuggestions = response[1], i = 0, j = reponseSuggestions.length; i < j; i++) {
                                         const trimmedResponseSuggestions = reponseSuggestions[i].trim();
-                                        if (trimmedResponseSuggestions !== autoComplete[0].join(''))
+                                        if (trimmedResponseSuggestions !== autoComplete[0].join(' '))
                                             tempArr.push(trimmedResponseSuggestions.replace(/<[^>]*>/g, ''))
                                     }
 
@@ -309,6 +302,9 @@ import { PLUGIN_MODE, PLUGIN_TYPE } from './settings';
                             chrome.storage.local.set({ 'state': state });
                         }
                         break;
+                    }
+                    case 'deleteSuggestion': {
+                        autoComplete[0].splice(msg.data, 1);
                     }
                     case 'authentication': {
                         chrome.identity.getAuthToken({
