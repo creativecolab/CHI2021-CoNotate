@@ -18,7 +18,7 @@ const FIREBASE_CREDENTIALS = {
     measurementId: "G-FMBSC9BP3G"
 };
 
-const PLUGIN_MODE = "control"; // control or experimental_notes
+const PLUGIN_MODE = "experimental_notes"; // control or experimental_notes
 const PLUGIN_TYPE = ["overview", "explore"]; // array with possible elements of overview and explore
 
 export {

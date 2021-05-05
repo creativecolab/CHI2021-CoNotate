@@ -1,7 +1,7 @@
 import { SERVER_API_URL } from '../settings';
 
 class nlpAPI {
-    async generateSuggestions_retry (query, autoComplete, note, serp, n) {
+    async generateSuggestions_retry (query, autocomplete, note, serp, n) {
         for (let i = 1; i <= n; i++) {
             try {
                 return await fetch(
@@ -11,7 +11,7 @@ class nlpAPI {
                         'contentType': 'json',
                         body: JSON.stringify({
                             query,
-                            autoComplete,
+                            autocomplete,
                             note,
                             serp
                         })
